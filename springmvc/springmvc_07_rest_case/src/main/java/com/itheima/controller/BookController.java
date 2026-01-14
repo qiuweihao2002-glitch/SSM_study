@@ -6,6 +6,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+
+@RestController ≈ @Controller + @ResponseBody（作用在类上）
+
+效果是：这个类里所有 @RequestMapping/@GetMapping/... 方法的返回值都会直接写到 HTTP 响应体里（通常配合 Jackson 自动转 JSON），
+而不是走视图解析（JSP/Thymeleaf）。
+*/
 @RestController
 @RequestMapping("/books")
 public class BookController {

@@ -19,11 +19,20 @@ public class BookController {
     }
 
 //    @RequestMapping(value = "/{id}" ,method = RequestMethod.DELETE)
+    //当你使用@PathVariable注解，你的@DeleteMapping("/{id}") 也就是你的url中就需要指明删除的id值，http://localhost:8080/books/1
     @DeleteMapping("/{id}")     //使用@DeleteMapping简化DELETE请求方法对应的映射配置
     public String delete(@PathVariable Integer id){
         System.out.println("book delete..." + id);
         return "{'module':'book delete'}";
     }
+
+    //当你使用@RequestParam注解，你的url中就不需要指明删除的id值，http://localhost:8080/books，你在param参数中写好你的变量和变量值就行：http://localhost:8080/books?id=1
+    @DeleteMapping()     //使用@DeleteMapping简化DELETE请求方法对应的映射配置
+    public String delete_2(@RequestParam Integer id){
+        System.out.println("book delete2..." + id);
+        return "{'module':'book delete'}";
+    }
+
 
 //    @RequestMapping(method = RequestMethod.PUT)
     @PutMapping         //使用@PutMapping简化Put请求方法对应的映射配置

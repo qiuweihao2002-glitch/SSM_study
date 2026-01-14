@@ -6,24 +6,6 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 import org.springframework.web.servlet.support.AbstractDispatcherServletInitializer;
 
-//public class ServletContainersInitConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
-//
-//    @Override
-//    protected Class<?>[] getRootConfigClasses() {
-//        return new Class[]{SpringConfig.class};
-//    }
-//
-//    @Override
-//    protected Class<?>[] getServletConfigClasses() {
-//        return new Class[]{SpringMvcConfig.class};
-//    }
-//
-//    @Override
-//    protected String[] getServletMappings() {
-//        return new String[]{"/"};
-//    }
-//}
-
 /*
 3）ServletContainersInitConfig（或 AbstractDispatcherServletInitializer）是“容器外的启动/注册配置”
 
@@ -56,30 +38,30 @@ WebApplicationContext 的初始化
 ✅ 简单说：它是“把 SpringMVC 接到 Tomcat 上”的桥。
  */
 
-
-public class ServletContainersInitConfig extends AbstractDispatcherServletInitializer {
-
-
-    @Override
-    protected WebApplicationContext createServletApplicationContext() {
-        AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
-        ctx.register(SpringMvcConfig.class);
-        return ctx;
-    }
-
-    @Override
-    protected String[] getServletMappings() {
-        return new String[]{"/"};
-    }
-
-
-    @Override
-    protected WebApplicationContext createRootApplicationContext() {
-        AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
-        ctx.register(SpringConfig.class);
-        return ctx;
-    }
-}
+//
+//public class ServletContainersInitConfig extends AbstractDispatcherServletInitializer {
+//
+//
+//    @Override
+//    protected WebApplicationContext createServletApplicationContext() {
+//        AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
+//        ctx.register(SpringMvcConfig.class);
+//        return ctx;
+//    }
+//
+//    @Override
+//    protected String[] getServletMappings() {
+//        return new String[]{"/"};
+//    }
+//
+//
+//    @Override
+//    protected WebApplicationContext createRootApplicationContext() {
+//        AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
+//        ctx.register(SpringConfig.class);
+//        return ctx;
+//    }
+//}
 
 
 /*“ServletContainersInitConfig：教 Tomcat 怎么把请求交给 DispatcherServlet，并启动 SpringMVC 容器”是什么意思？
@@ -108,3 +90,26 @@ SpringMvcConfig：告诉 Spring “Controller 在哪儿，扫描进容器”（�
 
 ServletContainersInitConfig：告诉 Tomcat “所有请求先给 DispatcherServlet”，并让它用 SpringMvcConfig 创建容器（容器外部的 Web 启动/接线）
  */
+
+
+
+//简化的写法
+
+public class ServletContainersInitConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
+
+
+    @Override
+    protected Class<?>[] getRootConfigClasses() {
+        return new Class[]{SpringConfig.class};
+    }
+
+    @Override
+    protected Class<?>[] getServletConfigClasses() {
+        return new Class[]{SpringMvcConfig.class};
+    }
+
+    @Override
+    protected String[] getServletMappings() {
+        return new String[]{"/"};
+    }
+}

@@ -18,23 +18,13 @@ public class ServletContainersInitConfig extends AbstractAnnotationConfigDispatc
         return new String[]{"/"};
     }
 
-    //乱码处理
-    //1）它主要防的是什么乱码？
-    //
-    //最常见是这几类：
-    //
-    //A. 表单提交 / 查询参数（GET/POST 表单）
-    //
-    //比如：
-    //
-    //GET /user?name=张三
-    //
-    //POST 表单 name=张三&...
-    //
-    //如果服务器用的默认编码不是 UTF-8，就可能读出来变成“????”或一堆乱码。
-    //
-    //B. 请求体（尤其是 POST 提交）
-    //
+//    浏览器用 application/x-www-form-urlencoded 提交表单时，如果服务器端没统一设置编码，request.getParameter() 取出来可能是乱码。
+//
+//    加了这个过滤器后，会在请求进入 Controller 之前做：
+//
+//            request.setCharacterEncoding("UTF-8")
+//
+//    这样 @RequestParam、request.getParameter() 等获取到的中文就正常了。
     //例如你用 @RequestParam 或 request.getParameter() 读参数时，编码不统一也会乱码。
     @Override
     protected Filter[] getServletFilters() {
